@@ -3,6 +3,9 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const connectDB = require("./config/db");
 const pokemonRoutes = require("./routes/pokemonRoutes");
+const path = require("path");
+
+app.use(express.static(path.join(__dirname, "build"))); // put this line of code in app.js
 
 dotenv.config();
 connectDB();
