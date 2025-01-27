@@ -1,4 +1,9 @@
 
+/node_modules
+/client/build
+/server/node_modules
+/server/.env
+
 logs
 *.log
 npm-debug.log*
