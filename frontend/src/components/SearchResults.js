@@ -16,8 +16,8 @@ const SearchResults = () => {
       setError(false);
 
       try {
-        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${query.toLowerCase()}`);
-        setPokemon(response.data);
+        const response = await axios.get(`http://localhost:5000/api/pokemon/search/${query.toLowerCase()}`);
+        setPokemon(response.data.data);
       } catch (err) {
         setError(true); // If Pokémon not found, set error state to true.
         setPokemon(null);

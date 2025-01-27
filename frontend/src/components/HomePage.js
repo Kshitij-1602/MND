@@ -3,13 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./../styles/HomePage.css";
 
-const dailyRandomId = () => {
-    const today = new Date();
-    const seed = today.getFullYear() * 10000 + today.getMonth() * 100 + today.getDate();
-    const randomId = (seed * 1103515245 + 12345) % 1010 + 1; // Random ID for Pokemon
-    return randomId;
-  };
-
 const HomePage = () => {
   const [search, setSearch] = useState("");
   const [randomPokemon, setRandomPokemon] = useState(null);
@@ -20,8 +13,7 @@ const HomePage = () => {
     // Fetch a random Pokémon daily
     const fetchRandomPokemon = async () => {
       try {
-        const randomId = dailyRandomId();
-        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
+        const response = await axios.get(`http://localhost:5000/api/pokemon/random`);
         setRandomPokemon(response.data);
       } catch (error) {
         console.error("Error fetching random Pokémon:", error);

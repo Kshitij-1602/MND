@@ -12,8 +12,8 @@ const DetailsPage = () => {
   useEffect(() => {
     const fetchPokemon = async () => {
       try {
-        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name}`);
-        setPokemon(response.data);
+        const response = await axios.get(`http://localhost:5000/api/pokemon/search/${name}`);
+        setPokemon(response.data.data);
       } catch (err) {
         console.error("Failed to fetch Pokémon details.");
       } finally {
