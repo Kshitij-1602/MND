@@ -5,7 +5,6 @@ const connectDB = require("./config/db");
 const pokemonRoutes = require("./routes/pokemonRoutes");
 const path = require("path");
 
-app.use(express.static(path.join(__dirname, "build"))); // put this line of code in app.js
 
 dotenv.config();
 connectDB();
@@ -13,6 +12,9 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(path.join(__dirname, "build"))); // put this line of code in app.js
+
 
 app.use("/api/pokemon", pokemonRoutes);
 
