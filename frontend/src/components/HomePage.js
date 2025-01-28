@@ -54,7 +54,7 @@ const HomePage = () => {
         </button>
       </div>
       {randomPokemon && (
-        <div className="random-card" title={`Base Experience: ${randomPokemon.base_experience}`}>
+        <div className="random-card" title={`Base Experience: ${randomPokemon.base_experience}`} onClick={() => navigate(`/details/${randomPokemon.name}`)}>
           <img
             src={randomPokemon.sprites.front_default}
             alt={randomPokemon.name}
@@ -64,6 +64,8 @@ const HomePage = () => {
           <p>Base Experience: {randomPokemon.base_experience}</p>
         </div>
       )}
+        {/* Footer */}
+        <footer className="footer">Made by Kshitij Mohanka</footer>
     </div>
   );
 };

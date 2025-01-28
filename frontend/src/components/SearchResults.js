@@ -6,7 +6,7 @@ import "../styles/SearchResults.css";
 const BASE_URL = process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
 
 const SearchResults = () => {
-  const { query } = useParams(); // Get the search query from the URL.
+  const { query } = useParams();
   const [pokemon, setPokemon] = useState(null);
   const [pokemonName,setPokemonName] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -20,14 +20,13 @@ const SearchResults = () => {
 
       try {
         const response = await axios.get(`${BASE_URL}/api/pokemon/search/${query.toLowerCase()}`);
-        console.log("response", response.data);
         setPokemon(response.data.data);
         setPokemonName(response.data.name);
       } catch (err) {
-        setError(true); // If Pokémon not found, set error state to true.
+        setError(true); 
         setPokemon(null);
       } finally {
-        setLoading(false); // Stop loading after fetching the data.
+        setLoading(false); 
       }
     };
 
