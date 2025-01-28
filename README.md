@@ -46,13 +46,13 @@ npm install
 cd ../frontend
 npm install
 ```
-### **3. Set up MongoDB and update env file: **
+### **3. Set up MongoDB and update env file:**
 
  - Create a MongoDB instance and run it locally. 
  - Crete a .env file and update the MONGO_URI with the Cluster string.
  - Update the PORT and NODE_ENV in the .env file
 
-### **4. Running the application locally : **
+### **4. Running the application locally:**
 
  - Start the backend and frontend server
 
