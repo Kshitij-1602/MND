@@ -7,24 +7,25 @@ const router = express.Router();
 // Fetch or search Pokemon
 router.get("/search/:name", async (req, res) => {
   const { name } = req.params;
+  const pokemonName = name.toLowerCase().trim();
   try {
     // Check if Pokemon exists in DB
-    let pokemon = await Pokemon.findOne({ name: name.toLowerCase() });
+    let pokemon = await Pokemon.findOne({ name: pokemonName });
 
     if (!pokemon) {
       // Fetch from PokeAPI
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`);
+      const url = `https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`;
+      const response = await axios.get(url);
       const data = response.data;
-
       pokemon = await Pokemon.create({
-        name: data.name,
-        attributes: data,
-      });
-    }
+        name: data.name.toLowerCase(),
+        data: data
+    });
 
+    }
     res.json(pokemon);
   } catch (error) {
-    res.status(404).json({ message: "Pokemon not found" });
+    res.json({ message: `Pokemon not found ${error}` });
   }
 });
 

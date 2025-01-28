@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./../styles/HomePage.css";
+import "../styles/HomePage.css";
+
+const BASE_URL = process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
@@ -13,7 +15,7 @@ const HomePage = () => {
     // Fetch a random Pokémon daily
     const fetchRandomPokemon = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/pokemon/random`);
+        const response = await axios.get(`${BASE_URL}/api/pokemon/random`);
         setRandomPokemon(response.data);
       } catch (error) {
         console.error("Error fetching random Pokémon:", error);

@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import "./../styles/SearchResults.css";
+import "../styles/SearchResults.css";
+
+const BASE_URL = process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
 
 const SearchResults = () => {
   const { query } = useParams(); // Get the search query from the URL.
   const [pokemon, setPokemon] = useState(null);
+  const [pokemonName,setPokemonName] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -16,8 +19,10 @@ const SearchResults = () => {
       setError(false);
 
       try {
-        const response = await axios.get(`http://localhost:5000/api/pokemon/search/${query.toLowerCase()}`);
+        const response = await axios.get(`${BASE_URL}/api/pokemon/search/${query.toLowerCase()}`);
+        console.log("response", response.data);
         setPokemon(response.data.data);
+        setPokemonName(response.data.name);
       } catch (err) {
         setError(true); // If Pokémon not found, set error state to true.
         setPokemon(null);
@@ -64,11 +69,11 @@ const SearchResults = () => {
       )}
 
       {/* Pokémon Card */}
-      {!loading && !error && pokemon && (
-        <div className="pokemon-card" onClick={() => navigate(`/details/${pokemon.name}`)}>
+      {!loading && !error && pokemon && pokemonName && (
+        <div className="pokemon-card" onClick={() => navigate(`/details/${pokemonName}`)}>
           <img
             src={pokemon.sprites.other["official-artwork"].front_default}
-            alt={pokemon.name}
+            alt={pokemonName}
             className="pokemon-image"
           />
           <h2 className="pokemon-name">{pokemon.name}</h2>

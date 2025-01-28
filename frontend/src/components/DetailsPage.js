@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import "./../styles/DetailsPage.css";
+import "../styles/DetailsPage.css";
+
+const BASE_URL = process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
 
 const DetailsPage = () => {
   const { name } = useParams();
@@ -9,10 +11,11 @@ const DetailsPage = () => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     const fetchPokemon = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/pokemon/search/${name}`);
+        const response = await axios.get(`${BASE_URL}/api/pokemon/search/${name}`);
         setPokemon(response.data.data);
       } catch (err) {
         console.error("Failed to fetch Pokémon details.");
