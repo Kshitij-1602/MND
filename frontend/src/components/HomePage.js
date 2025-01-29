@@ -12,7 +12,6 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch a random Pokémon daily
     const fetchRandomPokemon = async () => {
       try {
         const response = await axios.get(`${BASE_URL}/api/pokemon/random`);
@@ -37,6 +36,12 @@ const HomePage = () => {
     }
   };
 
+  const handleRandomCardClick = () => {
+    if (randomPokemon) {
+      navigate(`/details/${randomPokemon.name.toLowerCase()}`);
+    }
+  };
+
   return (
     <div className="homepage">
       <h1 className="homepage-title">MyNextDeveloper Project</h1>
@@ -47,14 +52,14 @@ const HomePage = () => {
           placeholder="Search for a Pokémon..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          onKeyPress={handleKeyPress}
+          onKeyDown={handleKeyPress}
         />
         <button className="search-button" onClick={handleSearch}>
           Search
         </button>
       </div>
       {randomPokemon && (
-        <div className="random-card" title={`Base Experience: ${randomPokemon.base_experience}`}>
+        <div className="random-card" title={`Base Experience: ${randomPokemon.base_experience}`} onClick={handleRandomCardClick}>
           <img
             src={randomPokemon.sprites.front_default}
             alt={randomPokemon.name}

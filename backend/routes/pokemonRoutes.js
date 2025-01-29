@@ -1,6 +1,7 @@
 const express = require("express");
 const axios = require("axios");
 const Pokemon = require("../models/Pokemon");
+const crypto = require("crypto");
 
 const router = express.Router();
 
@@ -9,11 +10,9 @@ router.get("/search/:name", async (req, res) => {
   const { name } = req.params;
   const pokemonName = name.toLowerCase().trim();
   try {
-    // Check if Pokemon exists in DB
     let pokemon = await Pokemon.findOne({ name: pokemonName });
 
     if (!pokemon) {
-      // Fetch from PokeAPI
       const url = `https://pokeapi.co/api/v2/pokemon/${name.toLowerCase()}`;
       const response = await axios.get(url);
       const data = response.data;
@@ -25,20 +24,24 @@ router.get("/search/:name", async (req, res) => {
     }
     res.json(pokemon);
   } catch (error) {
-    res.json({ message: `Pokemon not found ${error}` });
+    res.status(404).json({ message: `Pokemon not found ${error}` });
   }
 });
 
-const dailyRandomId = () => {
+
+const dailyRandomId = (userIdentifier = "default") => {
   const today = new Date();
-  const seed = today.getFullYear() * 10000 + today.getMonth() * 100 + today.getDate();
-  const randomId = (seed * 1103515245 + 12345) % 1010 + 1; // Random ID for Pokemon
+  const dateSeed = today.getFullYear() * 10000 + today.getMonth() * 100 + today.getDate();
+  const hash = crypto.createHash("md5").update(userIdentifier).digest("hex");
+  const userSeed = parseInt(hash.substring(0, 8), 16); 
+  const randomId = (dateSeed + userSeed) % 1010 + 1; 
   return randomId;
 };
 
 router.get("/random", async (req, res) => {
   try {
-    const randomId = dailyRandomId();
+    const userIp = req.ip || req.headers["x-forwarded-for"] || "default";
+    const randomId = dailyRandomId(userIp); 
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
     res.json(response.data);
   } catch (error) {

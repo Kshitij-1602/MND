@@ -11,23 +11,24 @@ const SearchResults = () => {
   const [pokemonName,setPokemonName] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(query);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchPokemon = async () => {
       setLoading(true);
       setError(false);
-
+      setPokemon(null);
       try {
         const response = await axios.get(`${BASE_URL}/api/pokemon/search/${query.toLowerCase()}`);
         console.log("response", response.data);
         setPokemon(response.data.data);
         setPokemonName(response.data.name);
       } catch (err) {
-        setError(true); // If Pokémon not found, set error state to true.
-        setPokemon(null);
+        setError(true); 
+        setPokemonName(null);
       } finally {
-        setLoading(false); // Stop loading after fetching the data.
+        setLoading(false); 
       }
     };
 
@@ -36,7 +37,7 @@ const SearchResults = () => {
 
   const handleSearch = (e) => {
     if (e.key === "Enter" || e.type === "click") {
-      const searchQuery = e.target.value || query;
+      // const searchQuery = e.target.value || query;
       navigate(`/search/${searchQuery}`);
     }
   };
@@ -49,10 +50,11 @@ const SearchResults = () => {
           className="search-input"
           type="text"
           placeholder="Search for a Pokémon..."
-          defaultValue={query}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)} 
           onKeyDown={handleSearch}
         />
-        <button className="search-button" onClick={handleSearch}>
+        <button className="search-button"  onClick={(e) => handleSearch(e)}>
           Search
         </button>
       </div>
@@ -61,7 +63,7 @@ const SearchResults = () => {
       {loading && <div className="loader"></div>}
 
       {/* Error */}
-      {!loading && error && (
+      {!loading && error && (!pokemon) && (
         <div className="not-found">
           <h1>Pokémon Not Found</h1>
           <p>Sorry, we couldn't find a Pokémon named "{query}".</p>
