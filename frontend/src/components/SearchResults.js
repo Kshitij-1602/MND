@@ -12,7 +12,7 @@ const SearchResults = () => {
   const [pokemonName,setPokemonName] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  const [searchQuery, setSearchQuery] = useState(query);
+  const [searchQuery, setSearchQuery] = useState(decodeURIComponent(query));
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,8 +21,8 @@ const SearchResults = () => {
       setError(false);
       setPokemon(null);
       try {
-        const response = await axios.get(`${BASE_URL}/api/pokemon/search/${query.toLowerCase()}`);
-        console.log("response", response.data);
+        const encodedQuery = encodeURIComponent(query.toLowerCase());
+        const response = await axios.get(`${BASE_URL}/api/pokemon/search/${encodedQuery}`);
         setPokemon(response.data.data);
         setPokemonName(response.data.name);
       } catch (err) {
@@ -38,7 +38,8 @@ const SearchResults = () => {
 
   const handleSearch = (e) => {
     if (e.key === "Enter" || e.type === "click") {
-      navigate(`/search/${searchQuery}`);
+      const encodedQuery = encodeURIComponent(searchQuery.trim().toLowerCase());
+      navigate(`/search/${encodedQuery}`);
     }
   };
 
@@ -66,7 +67,7 @@ const SearchResults = () => {
       {!loading && error && (!pokemon) && (
         <div className="not-found">
           <h1>Pokémon Not Found</h1>
-          <p>Sorry, we couldn't find a Pokémon named "{query}".</p>
+          <p>Sorry, we couldn't find a Pokémon named "{decodeURIComponent(query)}".</p>
         </div>
       )}
 
