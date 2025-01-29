@@ -47,7 +47,6 @@ router.get("/random", async (req, res) => {
     const randomId = dailyRandomId(userIdentifier);
 
     const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
-    console.log(`Generated ID: ${randomId} for user: ${userIdentifier}`);
 
     res.set('Cache-Control', 'no-cache, no-store, must-revalidate');
     res.set('Pragma', 'no-cache');

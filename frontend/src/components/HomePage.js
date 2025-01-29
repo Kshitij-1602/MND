@@ -27,7 +27,8 @@ const HomePage = () => {
 
   const handleSearch = () => {
     if (search.trim()) {
-      navigate(`/search/${search.trim().toLowerCase()}`);
+      const encodedQuery = encodeURIComponent(search.trim().toLowerCase());
+      navigate(`/search/${encodedQuery}`);
     }
   };
 
