@@ -6,7 +6,7 @@ import "../styles/SearchResults.css";
 const BASE_URL = process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
 
 const SearchResults = () => {
-  const { query } = useParams(); // Get the search query from the URL.
+  const { query } = useParams(); 
   const [pokemon, setPokemon] = useState(null);
   const [pokemonName,setPokemonName] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -33,11 +33,10 @@ const SearchResults = () => {
     };
 
     fetchPokemon();
-  }, [query]); // Re-fetch whenever the query parameter changes.
+  }, [query]); 
 
   const handleSearch = (e) => {
     if (e.key === "Enter" || e.type === "click") {
-      // const searchQuery = e.target.value || query;
       navigate(`/search/${searchQuery}`);
     }
   };

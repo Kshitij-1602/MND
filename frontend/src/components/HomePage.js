@@ -69,6 +69,9 @@ const HomePage = () => {
           <p>Base Experience: {randomPokemon.base_experience}</p>
         </div>
       )}
+
+       {/* Footer */}
+       <footer className="footer">Made by Kshitij Mohanka</footer>
     </div>
   );
 };
