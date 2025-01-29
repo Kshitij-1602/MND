@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../styles/HomePage.css";
 
-const BASE_URL = process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
+const BASE_URL = "";
+// const BASE_URL = "http://localhost:5000";
 
 const HomePage = () => {
   const [search, setSearch] = useState("");
